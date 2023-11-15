@@ -1,0 +1,49 @@
+# production environment. fit for selfhosting on a vps.
+
+x-defaults: &defaults
+  # cap_drop:
+  #   - ALL
+  restart: unless-stopped
+  env_file:
+    - .env
+
+services:
+  ars0n-server:
+    <<: *defaults
+    build:
+      dockerfile: ./Docker/Dockerfile.server
+    depends_on:
+      - ars0n-mongodb
+    ports:
+      - '127.0.0.1:8000:8000'
+
+  ars0n-client:
+    <<: *defaults
+    build:
+      dockerfile: ./Docker/Dockerfile.client
+    ports:
+      - '3000:3000'
+
+  ars0n-toolkit:
+    <<: *defaults
+    build:
+      dockerfile: ./Docker/Dockerfile.toolkit
+    env_file:
+      - .env 
+    ports:
+      - '127.0.0.1:5000:5000'
+
+  ars0n-mongodb:
+    <<: *defaults
+    image: mongo:latest
+    ports:
+      - '127.0.0.1:27017:27017'
+    volumes:
+      - mongodb_data:/data/db
+      - ./configs/Docker/mongod.conf:/etc/mongo/mongod.conf
+      - ./data/logs/mongodb:/logs/mongodb/
+    # command: ["mongod", "--config", "/etc/mongod.conf"]
+
+
+volumes:
+  mongodb_data:

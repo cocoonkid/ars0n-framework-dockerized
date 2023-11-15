@@ -1,0 +1,91 @@
+# future additions. not tested. there be dragons.
+
+x-defaults: &defaults
+  cap_drop:
+    - ALL
+  restart: unless-stopped
+
+
+services:
+
+  ars0n-server:
+    <<: *defaults
+    build:
+      dockerfile: ./Docker/Dockerfile.server
+    # volumes: FOR DEV PORT 8000
+    #   - ../server:/usr/src/app
+    env_file:
+      - .env 
+    depends_on:
+      - ars0n-mongodb
+    ports:
+      - '127.0.0.1:8000:8000'
+    command: ["sh", "-c", "node /home/ars0n/server/server.js > /home/ars0n/server/server.log 2>&1"]
+
+  ars0n-client:
+    <<: *defaults
+    build:
+      dockerfile: ./Docker/Dockerfile.client
+    ports:
+      - '3000:3000'
+    # volumes: FOR DEV PORT 3000
+    #   - /client:/usr/src/app
+    environment:
+      - NODE_ENV=production
+    command: ["sh", "-c", "cd /home/ars0n/client && npm run start"]
+
+  ars0n-toolkit:
+    <<: *defaults
+    build:
+      dockerfile: ./Docker/Dockerfile.toolkit
+    env_file:
+      - .env 
+    ports:
+      - '127.0.0.1:5000:5000'
+    # volumes: FOR DEV PORT 5000
+    #   - /client:/usr/src/app
+    environment:
+      - NODE_ENV=production
+    command: ["python", "toolkit-service.py"]
+    # command: sleep '10000'
+
+
+  ars0n-mongodb:
+    <<: *defaults
+    image: mongo:latest
+    ports:
+      - '127.0.0.1:27017:27017'
+    volumes:
+      - mongodb_data:/data/db
+
+
+#   https-portal:
+#     image: steveltn/https-portal:1
+#     ports:
+#       - '80:80'
+#       - '443:443'
+#     environment:
+#       DOMAINS: 'example.com'
+#       # STAGE: 'production' # Don't use production until staging works
+#     volumes:
+#       - https-portal-data:/var/lib/https-portal
+
+# gluetun:
+#   image: qmcgaw/gluetun
+#   cap_add:
+#     - NET_ADMIN
+#   env_file:
+#     - .env.vpn
+#   volumes:
+#     - /your/path/to/gluetun/config:/gluetun
+#   ports:
+#     - "1111:1111"
+#   restart: unless-stopped
+
+
+
+
+
+volumes:
+    https-portal-data:
+    mongodb_data:
