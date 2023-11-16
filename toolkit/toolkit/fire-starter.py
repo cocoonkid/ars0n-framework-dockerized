@@ -5,6 +5,10 @@ import json
 import re
 from datetime import datetime, timedelta
 from time import sleep
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Timer:
     def __init__(self):
@@ -308,7 +312,7 @@ def crt(args, home_dir, thisFqdn, logger):
 
 def subfinder(args, home_dir, thisFqdn, logger):
     try:
-        subprocess.run([f'{home_dir}/go/bin/subfinder -d {args.fqdn} -o /tmp/subfinder.tmp'], shell=True)
+        subprocess.run([f'{home_dir}/go/bin/subfinder -d {args.fqdn} -o /tmp/subfinder.tmp -pc /configs/subfinder_config.yml'], shell=True)
         f = open(f"/tmp/subfinder.tmp", "r")
         subfinder_arr = f.read().rstrip().split("\n")
         f.close()
@@ -592,9 +596,7 @@ def get_new_subdomain_length(args):
 
 def send_slack_notification(home_dir, text):
     message_json = {'text':text,'username':'Recon Box','icon_emoji':':eyes:'}
-    f = open(f'{home_dir}/.keys/slack_web_hook')
-    token = f.read()
-    clean_token = token.replace(u"\u000a","")
+    token = os.getenv('SLACK_TOKEN')
     requests.post(f'https://hooks.slack.com/services/{clean_token}', json=message_json)
 
 def build_cewl_wordlist(args, logger):

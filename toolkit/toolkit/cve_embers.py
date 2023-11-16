@@ -102,8 +102,7 @@ def get_home_dir():
 def send_slack_notification(args, url, package):
     home_dir = get_home_dir()
     message_json = {'text':f'Package {package} was found running on {url}!  (This will have a lot more information after I add this to the framework...)','username':'Vuln Disco Box','icon_emoji':':dart:'}
-    f = open(f'{home_dir}/.keys/slack_web_hook')
-    token = f.read()
+    token = os.getenv('SLACK_TOKEN')
     slack_auto = requests.post(f'https://hooks.slack.com/services/{token}', json=message_json)
 
 def wappalyzer(url):
