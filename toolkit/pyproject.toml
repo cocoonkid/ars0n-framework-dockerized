@@ -22,7 +22,7 @@ goop = "*"
 lockfile = "*"
 Unidecode = "*"
 colored = "*"
-dotenv = "*"
+python-dotenv = "*"
 
 [tool.poetry.dev-dependencies]
 

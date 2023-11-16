@@ -4,8 +4,8 @@ import requests, sys, subprocess, argparse, json, time, math, random
 from datetime import datetime
 
 def get_home_dir():
-    get_home_dir = subprocess.run(["echo $HOME"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
-    return get_home_dir.stdout.replace("\n", "")
+    home_dir = "/home/ars0n"
+    return home_dir
 
 def get_target_url_string(args):
     r = requests.post(f'http://{args.server}:{args.port}/api/auto', data={'fqdn':args.domain})

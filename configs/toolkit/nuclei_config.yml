@@ -1,0 +1,20 @@
+# Nuclei default configuration file
+nuclei:
+  # Number of concurrent HTTP requests to make.
+  threads: 10
+  # Timeout is the seconds to wait for a response from the server.
+  timeout: 5
+  # Retries is the number of times to retry the request.
+  retries: 1
+  # Rate limit is the number of requests to send per second.
+  rate-limit: 150
+  # Severity levels to include in the scan (info, low, medium, high, critical)
+  severity:
+    - critical
+    - high
+    - medium
+    - low
+    - info
+  # Custom headers for HTTP requests, add as many as needed
+  # headers:
+  #   - 'HeaderName: headervalue'

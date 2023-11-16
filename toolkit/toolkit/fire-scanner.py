@@ -21,11 +21,11 @@ class Timer:
     
 class Logger:
     def __init__(self):
-        subprocess.run(["[ -f logs/log.txt ] || touch logs/log.txt"], shell=True)
-        with open("logs/log.txt", "r") as file:
+        subprocess.run(["[ -f /logs/log.txt ] || touch /logs/log.txt"], shell=True)
+        with open("/logs/log.txt", "r") as file:
             self.init_log_data = file.readlines()
             self.init_log_len = len(self.init_log_data)
-        with open("logs/log.txt", "a") as file:
+        with open("/logs/log.txt", "a") as file:
             log_start_time = datetime.now()
             flag = "[INIT]"
             running_script = "Fire-Scanner.py"
@@ -33,7 +33,7 @@ class Logger:
             file.write(f"{flag} {log_start_time} | {running_script} -- {message}\n")
 
     def write_to_log(self, flag, running_script, message):
-        with open("logs/log.txt", "a") as file:
+        with open("/logs/log.txt", "a") as file:
             log_start_time = datetime.now()
             file.write(f"{flag} {log_start_time} | {running_script} -- {message}\n")
         with open("logs/temp_log.txt", "a") as file:
@@ -123,8 +123,8 @@ def protonvpn_killswitch_off():
     command = subprocess.run(["protonvpn-cli ks --off"], shell=True)
 
 def get_home_dir():
-    get_home_dir = subprocess.run(["echo $HOME"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
-    return get_home_dir.stdout.replace("\n", "")
+    home_dir = "/home/ars0n"
+    return home_dir
 
 def validate_network_connection(logger):
         print("[-] Checking Network Connection...")
@@ -539,7 +539,7 @@ def clean_stacktrace_dumps():
     subprocess.run("rm -f nuclei-*.dump", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
 
 def move_screenshots():
-    subprocess.run("""for file in ./screenshots/*; do cp -f "$file" "../client/public/screenshots/$(basename "$file")"; done""", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
+    subprocess.run("""for file in ./screenshots/*; do cp -f "$file" "/home/ars0n/screenshots/$(basename "$file")"; done""", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
 
 def perform_scans(args, thisFqdn, now, logger):
     """

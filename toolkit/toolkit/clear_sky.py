@@ -33,8 +33,8 @@ for current_argument, current_value in arguments:
         updateMode = True
 
 
-get_home_dir = subprocess.run(["echo $HOME"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
-home_dir = get_home_dir.stdout.replace("\n", "")
+home_dir = "/home/ars0n"
+
 
 print(f"[+] Running ClearSky against {fqdn}!")
 

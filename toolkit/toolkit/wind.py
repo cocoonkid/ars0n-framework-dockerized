@@ -32,8 +32,8 @@ for current_argument, current_value in arguments:
         server_port = current_value
         hasPort = True
 
-get_home_dir = subprocess.run(["echo $HOME"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
-home_dir = get_home_dir.stdout.replace("\n", "")
+home_dir = "/home/ars0n"
+ 
 
 r = requests.post(f'http://{server_ip}:{server_port}/api/auto', data={'fqdn':fqdn})
 thisFqdn = r.json()

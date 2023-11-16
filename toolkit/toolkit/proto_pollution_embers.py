@@ -80,8 +80,9 @@ if hasDomain is False or hasServer is False or hasPort is False or hasThreads is
     print("[!] USAGE: python kindling.py -d [TARGET_FQDN] -s [WAPT_FRAMEWORK_IP] -p [WAPT_FRAMEWORK_PORT] -T [THREADS]")
     sys.exit(2)
 
-get_home_dir = subprocess.run(["echo $HOME"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
-home_dir = get_home_dir.stdout.replace("\n", "")
+def get_home_dir():
+    home_dir = "/home/ars0n"
+    return home_dir
 
 start = time.time()
 

@@ -70,8 +70,7 @@ class NetworkValidator:
             self.vpn_connected = False
 
 def get_home_dir():
-    get_home_dir = subprocess.run(["echo $HOME"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
-    home_dir = get_home_dir.stdout.replace("\n", "")
+    home_dir = "/home/ars0n"
     return home_dir
 
 def get_fqdn_list(args):

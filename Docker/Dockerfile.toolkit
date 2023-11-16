@@ -52,8 +52,8 @@ RUN    git clone --depth=1 https://github.com/huntergregal/Sublist3r $TOOLS_DIR/
     && git clone --depth=1 https://github.com/projectdiscovery/nuclei $TOOLS_DIR/nuclei \
     && git clone --depth=1 https://github.com/nsonaniya2010/SubDomainizer $TOOLS_DIR/SubDomainizer \
     && git clone --depth=1 https://github.com/prbinu/tls-scan $TOOLS_DIR/tls-scan \
-    && git clone --depth=1 https://github.com/robertdavidgraham/masscan TOOLS_DIR/masscan \
-    && git clone --depth=1 https://github.com/blechschmidt/massdns TOOLS_DIR/massdns
+    && git clone --depth=1 https://github.com/robertdavidgraham/masscan $TOOLS_DIR/masscan \
+    && git clone --depth=1 https://github.com/blechschmidt/massdns $TOOLS_DIR/massdns
 
 WORKDIR $TOOLS_DIR/masscan
 RUN make
@@ -76,7 +76,11 @@ RUN    touch /tmp/dnmasscan.tmp \
     && touch /tmp/ffuf_results.tmp \
     && touch /tmp/arjun-test.tmp \
     && touch /tmp/httprobe_masscan_results.tmp \
-    && mkdir -p /home/ars0n/.keys/
+    && touch /tmp/amass.tmp \
+    && touch /tmp/sublist3r.tmp \
+    && mkdir -p /logs \
+    && touch /logs/temp_log.txt \
+    && mkdir -p /home/ars0n/.keys
 
 
 COPY toolkit $HOME

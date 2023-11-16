@@ -64,8 +64,8 @@ def send_slack_notification(program):
     requests.post(f'https://hooks.slack.com/services/{token}', json=message_json)
 
 def get_home_dir():
-    get_home_dir = subprocess.run(["echo $HOME"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
-    return get_home_dir.stdout.replace("\n", "")
+    home_dir = "/home/ars0n"
+    return home_dir
 
 def base64_encode(data):
     data_bytes = data.encode('ascii')
