@@ -1,0 +1,57 @@
+FROM python:bookworm
+
+LABEL org.opencontainers.image.authors="rs0n <rs0n@ars0nsecurity.com>"
+
+ENV HOME=/home/ars0n \
+    TOOLS_DIR=/home/ars0n/Tools \
+    PATH=/usr/local/go/bin:/home/ars0n/go/bin:$PATH \
+    POETRY_HOME=/usr/local \
+    POETRY_VERSION=1.7.0 \
+    POETRY_NO_INTERACTION=1 \
+    GO111MODULE=on
+
+RUN curl -sSL https://install.python-poetry.org | python -
+
+RUN mkdir -p $TOOLS_DIR \
+    && groupadd --gid 1000 ars0n \
+    && useradd --uid 1000 --gid ars0n --shell /bin/bash --create-home ars0n \
+    && apt-get update \
+    && apt-get upgrade -yqq \
+    && apt-get install -yqq --no-install-recommends \
+       apt-utils \
+       awscli \
+       jq \
+       git \
+       wget \
+       unzip \
+       curl \
+       cewl \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN    wget https://golang.org/dl/go1.21.4.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf go1.21.4.linux-amd64.tar.gz \
+    && rm go1.21.4.linux-amd64.tar.gz
+
+RUN    go install github.com/tomnomnom/httprobe@latest \
+    && go install github.com/tomnomnom/assetfinder@latest \
+    && go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest \
+    && go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest \
+    && go install github.com/projectdiscovery/shuffledns/cmd/shuffledns@latest \
+    && go install github.com/lc/gau@latest \
+    && go install github.com/jaeles-project/gospider@latest \
+    && go install github.com/incogbyte/shosubgo@latest \
+    && go install -v github.com/owasp-amass/amass/v4/...@master
+    
+RUN    git clone https://github.com/huntergregal/Sublist3r $TOOLS_DIR/Sublist3r \
+    && git clone https://github.com/projectdiscovery/nuclei-templates $TOOLS_DIR/nuclei-templates \
+    && git clone https://github.com/projectdiscovery/nuclei $TOOLS_DIR/nuclei \
+    && git clone https://github.com/nsonaniya2010/SubDomainizer $TOOLS_DIR/SubDomainizer \
+    && git clone https://github.com/prbinu/tls-scan $TOOLS_DIR/tls-scan
+
+COPY toolkit $HOME
+
+WORKDIR $HOME
+
+RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
+
+CMD ["python", "toolkit-service.py"]

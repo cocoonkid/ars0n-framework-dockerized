@@ -1,0 +1,17 @@
+server/node_modules
+client/node_modules
+client/public/screenshots/http*.png
+toolkit/h1.json
+toolkit/temp/*
+toolkit/config/amass_*.yaml
+toolkit/screenshots/http*.png
+toolkit/toolkit/nuclei-stacktrace-*.dump
+toolkit/nuclei-stacktrace-*.dump
+toolkit/wordlists/*.tmp
+toolkit/wordlists/cewl_*
+toolkit/http*
+toolkit/logs/*
+toolkit/wordlists/live_servers.txt
+toolkit/__pycache__
+.env
+.vscode
