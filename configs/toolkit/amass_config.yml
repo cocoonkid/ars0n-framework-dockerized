@@ -1,0 +1,33 @@
+# Amass default configuration file
+resolvers:
+  - 1.1.1.1
+  - 8.8.8.8
+  - 9.9.9.9
+
+sources:
+  - Ask
+  - DNSDB
+  - RIDD
+  - BufferOver
+  - CommonCrawl
+
+bruteforce:
+  enabled: true
+  # List of file names that contain subdomain names for brute forcing
+  wordlists:
+    - /path/to/wordlist.txt
+
+alterations:
+  enabled: true
+  # List of file names that contain alterations and permutations
+  wordlists:
+    - /path/to/alterations_wordlist.txt
+
+# Custom settings for data operations
+data:
+  # Directory where the output graph databases will be saved
+  directory: /path/to/amass_output
+  # Save JSON output files
+  json: true
+  # Save the data operations to a log file
+  log: true

@@ -5,11 +5,18 @@ import argparse
 import re
 import random
 import json
+import os
+from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 from datetime import datetime
 from time import sleep
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+load_dotenv()
+
+
+
 
 class HackerOne:
     def __init__(self, mrp=None):
@@ -45,26 +52,20 @@ def get_most_recent_program_obj(program):
         return False
 
 def send_init_notification():
-    get_home_dir = subprocess.run(["echo $HOME"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
-    home_dir = get_home_dir.stdout.replace("\n", "")
     message_json = {'text':':bulb::bulb:  Bug Bounty Program Monitoring Server Online!  :bulb::bulb:','username':'BB-Disco','icon_emoji':':bug:'}
-    f = open(f'{home_dir}/.keys/slack_web_hook')
-    token = f.read()
+    token = os.getenv('SLACK_WEB_HOOK')
     requests.post(f'https://hooks.slack.com/services/{token}', json=message_json)
 
 def send_slack_notification(program):
-    get_home_dir = subprocess.run(["echo $HOME"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
-    home_dir = get_home_dir.stdout.replace("\n", "")
     message_json = {'text':f':fire::fire:  There is a new program on {program.platform}!  Title: *{program.mrp}*  |  Link: {program.link}  :fire::fire:','username':'HackerOne','icon_emoji':':bug:'}
     print(message_json)
-    f = open(f'{home_dir}/.keys/slack_web_hook')
-    token = f.read()
+    token = os.getenv('SLACK_WEB_HOOK')
     print(f"[+] New Program Found!  Name: {program.mrp}")
     requests.post(f'https://hooks.slack.com/services/{token}', json=message_json)
 
 def get_home_dir():
-    get_home_dir = subprocess.run(["echo $HOME"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
-    return get_home_dir.stdout.replace("\n", "")
+    home_dir = "/home/ars0n"
+    return home_dir
 
 def base64_encode(data):
     data_bytes = data.encode('ascii')
@@ -73,18 +74,10 @@ def base64_encode(data):
     return base64_str
 
 def get_h1_api_key():
-    home_dir = get_home_dir()
-    f = open(f'{home_dir}/.keys/.hackerone','r')
-    api_key = f.read().strip()
-    f.close()
-    return api_key
+    return os.getenv('HACKERONE_API_KEY')
 
 def get_bc_api_key():
-    home_dir = get_home_dir()
-    f = open(f'{home_dir}/.keys/.bugcrowd','r')
-    api_key = f.read().strip()
-    f.close()
-    return api_key
+    return os.getenv('BUGCROWD_API_KEY')
 
 def h1_api_call(url):
     try:
@@ -109,8 +102,8 @@ def get_h1_domains(program):
 
 def write_output(data, data_type):
     home_dir = get_home_dir()
-    subprocess.run([f"rm temp/{data_type}.txt"], shell=True)
-    with open(f'temp/{data_type}.txt', 'w', encoding='utf-8') as f:
+    subprocess.run([f"rm /tmp/{data_type}.txt"], shell=True)
+    with open(f'/tmp/{data_type}.txt', 'w', encoding='utf-8') as f:
         for scope_item in data:
             if scope_item == "*.*":
                 continue
@@ -126,7 +119,7 @@ def write_output(data, data_type):
                 f.write(f"{clean_item}\n")
 
 def append_output(data, data_type):
-    with open(f'temp/{data_type}.txt', 'a') as f:
+    with open(f'/tmp/{data_type}.txt', 'a') as f:
         for scope_item in data:
             if " " in scope_item:
                 continue
@@ -251,7 +244,7 @@ def bugcrowd():
     return True
 
 def get_url_list():
-    f = open('temp/slowburn_urls.txt','r')
+    f = open('/tmp/slowburn_urls.txt','r')
     lines = f.readlines()
     urls = []
     for line in lines:
@@ -259,7 +252,7 @@ def get_url_list():
     return urls
 
 def get_domain_list():
-    f = open('temp/slowburn_domains.txt','r')
+    f = open('/tmp/slowburn_domains.txt','r')
     lines = f.readlines()
     domains = []
     for line in lines:
@@ -346,7 +339,7 @@ def arg_parse():
     return parser.parse_args()
 
 def main(args):
-    program_check = subprocess.run("ls temp/slowburn_domains.txt; ls temp/slowburn_urls.txt", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)    
+    program_check = subprocess.run("ls /tmp/slowburn_domains.txt; ls /tmp/slowburn_urls.txt", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)    
     if args.initialize or program_check.returncode != 0:
         initialize()
     urls = get_url_list()

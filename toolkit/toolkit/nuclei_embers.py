@@ -40,8 +40,9 @@ if hasDomain is False or hasServer is False or hasPort is False or hasTemplate i
     print("[!] USAGE: python kindling.py -d [TARGET_FQDN] -s [WAPT_FRAMEWORK_IP] -p [WAPT_FRAMEWORK_PORT] -t [TEMPLATE]")
     sys.exit(2)
 
-get_home_dir = subprocess.run(["echo $HOME"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
-home_dir = get_home_dir.stdout.replace("\n", "")
+
+home_dir = "/home/ars0n"
+
 
 subprocess.run([f'export PATH="$HOME/go/bin:$PATH"; {home_dir}/go/bin/nuclei -update -ut;'], shell=True)
 

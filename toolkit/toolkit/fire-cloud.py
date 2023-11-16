@@ -16,8 +16,8 @@ api_gateway_list = []
 elasticbeanstalk_list = []
 
 def get_home_dir():
-    get_home_dir = subprocess.run(["echo $HOME"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
-    return get_home_dir.stdout.replace("\n", "")
+    home_dir = "/home/ars0n"
+    return home_dir
 
 def update_fqdn_obj(args, thisFqdn):
     res = requests.post(f'http://{args.server}:{args.port}/api/auto/update', json=thisFqdn)
@@ -226,7 +226,7 @@ def ec2_checks(cname):
         print("[-] Request timed out.")  
     except requests.exceptions.RequestException as e:
         print(f"[-] An error occurred -- check {cname} manually")
-    ec2_nmap = subprocess.run(["nmap", "-Pn", "-p-", "-sT", "--reason", "--open", "-oA", "../temp/{cname}_tcp_full_port_scan", cname], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
+    ec2_nmap = subprocess.run(["nmap", "-Pn", "-p-", "-sT", "--reason", "--open", "-oA", "./tmp/{cname}_tcp_full_port_scan", cname], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
     if ec2_nmap.returncode == 0:
         print(f"[!] TCP Full Port Scan completed on {cname}")
     else:
