@@ -1,7 +1,10 @@
 <h1 align="center">
   <a href="https://www.linkedin.com/in/%E2%84%8C%F0%9D%94%9E%F0%9D%94%AF%F0%9D%94%AF%F0%9D%94%A6%F0%9D%94%B0%F0%9D%94%AC%F0%9D%94%AB-%E2%84%9C%F0%9D%94%A6%F0%9D%94%A0%F0%9D%94%A5%F0%9D%94%9E%F0%9D%94%AF%F0%9D%94%A1%F0%9D%94%B0%F0%9D%94%AC%F0%9D%94%AB-%F0%9D%96%A2%F0%9D%96%A8%F0%9D%96%B2%F0%9D%96%B2%F0%9D%96%AF-%F0%9D%96%AE%F0%9D%96%B2%F0%9D%96%B6%F0%9D%96%A4-%F0%9D%96%AC%F0%9D%96%B2%F0%9D%96%BC-7a55bb158/"><img src="static/rs0n-logo.png" width="200px" alt="Arson Logo"></a>
   <br>
-  The Ars0n Framework dockerized - THIS IS A WORK IN PROGESS. THERE BE DRAGONS. YOU HAVE BEEN WARNED. THE STABLE RELEASE IS NEAR THOUGH! PR's WELCOME!
+  The Ars0n Framework dockerized - because some people want to watch the clouds burn ¯\_(ツ)_/¯
+  
+  DISCLAIMER:
+  THIS IS A WORK IN PROGESS. THERE BE DRAGONS. YOU HAVE BEEN WARNED. THE STABLE RELEASE IS NEAR THOUGH! PR's WELCOME!
   DO NOT USE THIS IN PRODUCTION AND EVEN LESS ON A PUBLIC REACHABLE SERVER!  *Soon™*
   Before filing issues please check TODO.md for now.
   <br>

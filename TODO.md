@@ -1,15 +1,29 @@
 ## TODO: This is non exhaustive list of incoming fixes/features. No promises.No ETA.
 
 
-
 ## known bugs
 
 
-
-
+ars0n-framework-ars0n-toolkit-1  | The enumeration has finished
+ars0n-framework-ars0n-toolkit-1  | /home/ars0n/Tools/Sublist3r/sublist3r.py:76: SyntaxWarning: invalid escape sequence '\_'
+ars0n-framework-ars0n-toolkit-1  |   print("""%s
+ars0n-framework-ars0n-toolkit-1  | /home/ars0n/Tools/Sublist3r/sublist3r.py:289: SyntaxWarning: invalid escape sequence '\/'
+ars0n-framework-ars0n-toolkit-1  |   link_regx = re.compile('<cite.*?>(.*?)<\/cite>')
+ars0n-framework-ars0n-toolkit-1  | /home/ars0n/Tools/Sublist3r/sublist3r.py:346: SyntaxWarning: invalid escape sequence '\/'
+ars0n-framework-ars0n-toolkit-1  |   link = re.sub("<(\/)?b>", "", link)
+ars0n-framework-ars0n-toolkit-1  | /home/ars0n/Tools/Sublist3r/sublist3r.py:442: SyntaxWarning: invalid escape sequence '\/'
+ars0n-framework-ars0n-toolkit-1  |   link = re.sub('<(\/)?strong>|<span.*?>|<|>', '', link)
+ars0n-framework-ars0n-toolkit-1  | /home/ars0n/Tools/Sublist3r/sublist3r.py:661: SyntaxWarning: invalid escape sequence '\/'
+ars0n-framework-ars0n-toolkit-1  |   tbl_regex = re.compile('<a name="hostanchor"><\/a>Host Records.*?<table.*?>(.*?)</table>', re.S)
+ars0n-framework-ars0n-toolkit-1  | /home/ars0n/Tools/Sublist3r/sublist3r.py:910: SyntaxWarning: invalid escape sequence '\-'
+ars0n-framework-ars0n-toolkit-1  |   domain_check = re.compile("^(http|https)?[a-zA-Z0-9]+([\-\.]{1}[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$")
+ars0n-framework-ars0n-toolkit-1  | /home/ars0n/Tools/Sublist3r/subbrute/subbrute.py:374: SyntaxWarning: invalid escape sequence '\.'
+ars0n-framework-ars0n-toolkit-1  |   domain_match = re.compile("([a-zA-Z0-9_-]*\.[a-zA-Z0-9_-]*\.[a-zA-Z0-9_-]*)+")
 
 
 ## ideas
+
+improve .gitignore & .dockerignore
 fix go bins path
 bind mount go host cache to speed up dev builds
 fix remaining bugs caused by dockerization.
@@ -23,6 +37,7 @@ move all tools configs to ./configs
 Multistage Builds
 Smaller images
 add zsh as shell with minimal set of features.
+add wordlist-manager to remove unnecessary data from repo & make repo as slim as possible.
 write great docs
 Ansible playbook for deploying to Kali/Ubuntu/Arch/RHEL
 maybe terraform to ensure automatic deployment to various hosters
