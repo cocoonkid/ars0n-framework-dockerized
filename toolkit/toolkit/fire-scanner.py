@@ -25,11 +25,11 @@ class Timer:
     
 class Logger:
     def __init__(self):
-        subprocess.run(["[ -f /logs/log.txt ] || touch /logs/log.txt"], shell=True)
-        with open("/logs/log.txt", "r") as file:
+        subprocess.run(["[ -f /home/ars0n/logs/log.txt ] || touch /home/ars0n/logs/log.txt"], shell=True)
+        with open("/home/ars0n/logs/log.txt", "r") as file:
             self.init_log_data = file.readlines()
             self.init_log_len = len(self.init_log_data)
-        with open("/logs/log.txt", "a") as file:
+        with open("/home/ars0n/logs/log.txt", "a") as file:
             log_start_time = datetime.now()
             flag = "[INIT]"
             running_script = "Fire-Scanner.py"
@@ -37,7 +37,7 @@ class Logger:
             file.write(f"{flag} {log_start_time} | {running_script} -- {message}\n")
 
     def write_to_log(self, flag, running_script, message):
-        with open("/logs/log.txt", "a") as file:
+        with open("/home/ars0n/logs/log.txt", "a") as file:
             log_start_time = datetime.now()
             file.write(f"{flag} {log_start_time} | {running_script} -- {message}\n")
         with open("logs/temp_log.txt", "a") as file:
@@ -197,7 +197,7 @@ def build_url_str(thisFqdn):
     return url_str
 
 def write_urls_file(url_str):
-    f = open("/tmp/urls.txt", "w")
+    f = open("/home/ars0n/tmp/urls.txt", "w")
     f.write(url_str)
     f.close()
 
@@ -205,7 +205,7 @@ def full_nuclei_scan(args, now):
     try:
         print("[-] Running a Full Nuclei Scan using All Templates")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates -l /tmp/urls.txt -stats -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates -l /home/ars0n/tmp/urls.txt -stats -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "All Templates", "vulns")
@@ -228,7 +228,7 @@ def technologies_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the Technologies Templates")
         protonvpn_unnecessary(args, "Technologies")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/technologies -l /tmp/urls.txt -stats -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/technologies -l /home/ars0n/tmp/urls.txt -stats -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "Technologies", "vulnsTech")
@@ -248,7 +248,7 @@ def misconfiguration_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the Misconfiguration Templates")
         protonvpn_necessary(args, "Misconfigurations")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/misconfiguration -l /tmp/urls.txt -timeout 7 -vv -stats -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/misconfiguration -l /home/ars0n/tmp/urls.txt -timeout 7 -vv -stats -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "Misconfigurations", "vulnsMisconfig")
@@ -268,7 +268,7 @@ def cves_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the CVEs Templates")
         protonvpn_necessary(args, "Misconfigurations")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/cves -l /tmp/urls.txt -stats -timeout 7 -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/cves -l /home/ars0n/tmp/urls.txt -stats -timeout 7 -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "CVES", "vulnsCVEs")
@@ -287,7 +287,7 @@ def cnvd_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the CNVD Templates")
         protonvpn_necessary(args, "Misconfigurations")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/cnvd -l /tmp/urls.txt -stats -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/cnvd -l /home/ars0n/tmp/urls.txt -stats -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "CNVD", "vulnsCNVD")
@@ -306,7 +306,7 @@ def exposed_panels_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the Exposed Panels Templates")
         protonvpn_necessary(args, "Exposed Panels")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/exposed-panels -l /tmp/urls.txt -stats -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/exposed-panels -l /home/ars0n/tmp/urls.txt -stats -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "Exposed Panels", "vulnsExposed")
@@ -325,7 +325,7 @@ def exposures_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the Exposures Templates")
         protonvpn_necessary(args, "Misconfigurations")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/exposures -l /tmp/urls.txt -stats -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/exposures -l /home/ars0n/tmp/urls.txt -stats -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "Exposures", "vulnsExposure")
@@ -344,7 +344,7 @@ def miscellaneous_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the Miscellaneous Templates")
         protonvpn_necessary(args, "Misconfigurations")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/miscellaneous -l /tmp/urls.txt -stats -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/miscellaneous -l /home/ars0n/tmp/urls.txt -stats -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "Miscellaneous", "vulnsMisc")
@@ -363,7 +363,7 @@ def network_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the OSINT Templates")
         protonvpn_necessary(args, "Misconfigurations")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/osint -l /tmp/urls.txt -stats -vv -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/osint -l /home/ars0n/tmp/urls.txt -stats -vv -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "Network", "vulnsNetwork")
@@ -382,7 +382,7 @@ def file_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the File Templates")
         protonvpn_necessary(args, "Misconfigurations")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/default-logins -l /tmp/urls.txt -vv -stats -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/default-logins -l /home/ars0n/tmp/urls.txt -vv -stats -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "File", "vulnsFile")
@@ -401,7 +401,7 @@ def dns_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the DNS Templates")
         protonvpn_necessary(args, "Misconfigurations")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/dns -l /tmp/urls.txt -stats -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/dns -l /home/ars0n/tmp/urls.txt -stats -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "DNS", "vulnsDNS")
@@ -420,7 +420,7 @@ def vulnerabilities_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the Vulnerabilities Templates")
         protonvpn_necessary(args, "Misconfigurations")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/vulnerabilities -l /tmp/urls.txt -stats -timeout 7 -vv -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/http/vulnerabilities -l /home/ars0n/tmp/urls.txt -stats -timeout 7 -vv -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "Vulnerabilities", "vulnsVulns")
@@ -440,7 +440,7 @@ def rs0n_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the Custom Templates")
         protonvpn_necessary(args, "Misconfigurations")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t ./custom -l /tmp/urls.txt -stats -vv --headless -sb -hbs 10 -headc 1 -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t ./custom -l /home/ars0n/tmp/urls.txt -stats -vv --headless -sb -hbs 10 -headc 1 -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "Custom", "vulnsRs0n")
@@ -459,7 +459,7 @@ def headless_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the Headless Templates")
         protonvpn_necessary(args, "Misconfigurations")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/headless -l /tmp/urls.txt -stats -vv --headless -sb -hbs 10 -headc 1 -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/headless -l /home/ars0n/tmp/urls.txt -stats -vv --headless -sb -hbs 10 -headc 1 -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "Headless", "vulnsHeadless")
@@ -478,7 +478,7 @@ def ssl_nuclei_scan(args, now, logger):
         print("[-] Running a Nuclei Scan using the SSL Templates")
         protonvpn_necessary(args, "Misconfigurations")
         home_dir = get_home_dir()
-        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/ssl -l /tmp/urls.txt -stats -fr -hm -o /tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
+        subprocess.run([f"{home_dir}/go/bin/nuclei -t {home_dir}/nuclei-templates/ssl -l /home/ars0n/tmp/urls.txt -stats -fr -hm -o /home/ars0n/tmp/{args.fqdn}-{now}.json -jsonl"], shell=True)
         data = process_results(args, now)
         thisFqdn = get_fqdn_obj(args)
         update_vulns(args, thisFqdn, data, "SSL", "vulnsSSL")
@@ -492,7 +492,7 @@ def ssl_nuclei_scan(args, now, logger):
         print("[!] Something went wrong!  Skipping the SSL Templates...")
 
 def process_results(args, now):
-    f = open(f"/tmp/{args.fqdn}-{now}.json")
+    f = open(f"/home/ars0n/tmp/{args.fqdn}-{now}.json")
     results = f.read().split("\n")
     data = []
     counter = 0

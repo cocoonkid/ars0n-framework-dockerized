@@ -68,10 +68,10 @@ try:
     subdomainStr = ""
     for subdomain in subdomainArr:
         subdomainStr += f"{subdomain}\n"
-    f = open("/tmp/consolidated_list.tmp", "w")
+    f = open("/home/ars0n/tmp/consolidated_list.tmp", "w")
     f.write(subdomainStr)
     f.close()
-    httprobe_results = subprocess.run([f"cat /tmp/consolidated_list.tmp | {home_dir}/go/bin/httprobe -t 20000 -c 50 -p http:8080 -p http:8000 -p http:8008 -p https:8443 -p https:44300 -p https:44301"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
+    httprobe_results = subprocess.run([f"cat /home/ars0n/tmp/consolidated_list.tmp | {home_dir}/go/bin/httprobe -t 20000 -c 50 -p http:8080 -p http:8000 -p http:8008 -p https:8443 -p https:44300 -p https:44301"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, shell=True)
     r = requests.post(f'http://{server_ip}:{server_port}/api/auto', data={'fqdn':fqdn})
     thisFqdn = r.json()
     httprobe = httprobe_results.stdout.split("\n")
@@ -91,7 +91,7 @@ try:
 except:
     print("[!] Httprobe module did NOT complete successfully -- skipping...")
 
-subprocess.run(["rm /tmp/consolidated_list.tmp"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
+subprocess.run(["rm /home/ars0n/tmp/consolidated_list.tmp"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
 # Send new fqdn object
 r = requests.post(f'http://{server_ip}:{server_port}/api/auto/update', json=thisFqdn, headers={'Content-type':'application/json'})
 
@@ -113,13 +113,13 @@ else:
 # httprobe_string = ""
 # for subdomain in httprobe:
 #     httprobe_string += f"{subdomain}\n"
-# f = open("/tmp/httprobe_results.tmp", "w")
+# f = open("/home/ars0n/tmp/httprobe_results.tmp", "w")
 # f.write(httprobe_string)
 # f.close()
 # now = datetime.now().strftime("%d-%m-%y_%I%p")
 # print(f"[-] Running EyeWitness report against {fqdn} httprobe results...")
 # subprocess.run([f"rm -rf {home_dir}/Reports/EyeWitness_kindling_{fqdn}_*"], shell=True)
-# subprocess.run([f"cd {home_dir}/Tools/EyeWitness/Python; ./EyeWitness.py -f /tmp/httprobe_results.tmp -d {home_dir}/Reports/EyeWitness_kindling_{fqdn}_{now} --no-prompt --jitter 5 --timeout 10"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
+# subprocess.run([f"cd {home_dir}/Tools/EyeWitness/Python; ./EyeWitness.py -f /home/ars0n/tmp/httprobe_results.tmp -d {home_dir}/Reports/EyeWitness_kindling_{fqdn}_{now} --no-prompt --jitter 5 --timeout 10"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
 # print(f"[+] EyeWitness report complete!")
 print(f"[-] Sending notification through Slack...")
 end = time.time()

@@ -102,8 +102,8 @@ def get_h1_domains(program):
 
 def write_output(data, data_type):
     home_dir = get_home_dir()
-    subprocess.run([f"rm /tmp/{data_type}.txt"], shell=True)
-    with open(f'/tmp/{data_type}.txt', 'w', encoding='utf-8') as f:
+    subprocess.run([f"rm /home/ars0n/tmp/{data_type}.txt"], shell=True)
+    with open(f'/home/ars0n/tmp/{data_type}.txt', 'w', encoding='utf-8') as f:
         for scope_item in data:
             if scope_item == "*.*":
                 continue
@@ -119,7 +119,7 @@ def write_output(data, data_type):
                 f.write(f"{clean_item}\n")
 
 def append_output(data, data_type):
-    with open(f'/tmp/{data_type}.txt', 'a') as f:
+    with open(f'/home/ars0n/tmp/{data_type}.txt', 'a') as f:
         for scope_item in data:
             if " " in scope_item:
                 continue
@@ -244,7 +244,7 @@ def bugcrowd():
     return True
 
 def get_url_list():
-    f = open('/tmp/slowburn_urls.txt','r')
+    f = open('/home/ars0n/tmp/slowburn_urls.txt','r')
     lines = f.readlines()
     urls = []
     for line in lines:
@@ -252,7 +252,7 @@ def get_url_list():
     return urls
 
 def get_domain_list():
-    f = open('/tmp/slowburn_domains.txt','r')
+    f = open('/home/ars0n/tmp/slowburn_domains.txt','r')
     lines = f.readlines()
     domains = []
     for line in lines:
@@ -339,7 +339,7 @@ def arg_parse():
     return parser.parse_args()
 
 def main(args):
-    program_check = subprocess.run("ls /tmp/slowburn_domains.txt; ls /tmp/slowburn_urls.txt", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)    
+    program_check = subprocess.run("ls /home/ars0n/tmp/slowburn_domains.txt; ls /home/ars0n/tmp/slowburn_urls.txt", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)    
     if args.initialize or program_check.returncode != 0:
         initialize()
     urls = get_url_list()

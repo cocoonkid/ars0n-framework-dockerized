@@ -1,4 +1,4 @@
-FROM python:bookworm as base-one
+FROM python:bookworm
 
 LABEL org.opencontainers.image.authors="rs0n <rs0n@ars0nsecurity.com>"
 
@@ -32,41 +32,15 @@ RUN mkdir -p $TOOLS_DIR \
        make\ 
        libpcap-dev \
        nano \
+       postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
 RUN    wget https://golang.org/dl/go1.21.4.linux-amd64.tar.gz \
     && tar -C /usr/local -xzf go1.21.4.linux-amd64.tar.gz \
     && rm go1.21.4.linux-amd64.tar.gz
 
-RUN    touch /tmp/dnmasscan.tmp \
-    && touch /tmp/dns.log \
-    && touch /tmp/clear_sky_masscan.tmp \
-    && touch /tmp/tls-scan-in.tmp \
-    && touch /tmp/tls-results.json \
-    && touch /tmp/tls_filtered.tmp \
-    && touch /tmp/aws_ips.tmp \
-    && touch /tmp/urls.txt \
-    && touch /tmp/masscan.json \
-    && touch /tmp/consolidated_list.tmp \
-    && touch /tmp/httprobe_results.tmp \
-    && touch /tmp/masscan_httprobe.tmp \
-    && touch /tmp/ffuf_results.tmp \
-    && touch /tmp/arjun-test.tmp \
-    && touch /tmp/httprobe_masscan_results.tmp \
-    && touch /tmp/amass.tmp \
-    && touch /tmp/sublist3r.tmp \
-    && touch /tmp/consolidated_list.tmp \
-    && touch /tmp/shuffledns.tmp \
-    && mkdir -p /logs \
-    && touch /logs/temp_log.txt \
-    && mkdir -p /home/ars0n/.keys
 
-FROM base-one
-
-ENV GOCACHE=/tmp/.cache/go-build
-RUN 
-RUN    --mount=type=cache,target="/tmp/.cache/go-build" \
-       go install github.com/tomnomnom/httprobe@latest \
+RUN    go install github.com/tomnomnom/httprobe@latest \
     && go install github.com/tomnomnom/assetfinder@latest \
     && go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest \
     && go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest \
@@ -86,13 +60,10 @@ RUN    git clone --depth=1 https://github.com/huntergregal/Sublist3r $TOOLS_DIR/
     && git clone --depth=1 https://github.com/hannob/tlshelpers $TOOLS_DIR/tlshelpers
 
 WORKDIR $TOOLS_DIR/masscan
-RUN make
+RUN make && mv bin/masscan /usr/bin/masscan
 
 WORKDIR $TOOLS_DIR/massdns
-RUN make
-
-
-
+RUN make && mv bin/massdns /usr/bin/massdns
 
 COPY toolkit $HOME
 

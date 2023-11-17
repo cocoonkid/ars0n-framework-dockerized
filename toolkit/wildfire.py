@@ -18,11 +18,11 @@ class Timer:
     
 class Logger:
     def __init__(self):
-        subprocess.run(["[ -f /logs/log.txt ] || touch /logs/log.txt; rm -f logs/temp_log.txt"], shell=True)
-        with open("/logs/log.txt", "r") as file:
+        subprocess.run(["[ -f /home/ars0n/logs/log.txt ] || touch /home/ars0n/logs/log.txt; rm -f logs/temp_log.txt"], shell=True)
+        with open("/home/ars0n/logs/log.txt", "r") as file:
             self.init_log_data = file.readlines()
             self.init_log_len = len(self.init_log_data)
-        with open("/logs/log.txt", "a") as file:
+        with open("/home/ars0n/logs/log.txt", "a") as file:
             log_start_time = datetime.now()
             flag = "[INIT]"
             running_script = "Wildfire.py"
@@ -30,7 +30,7 @@ class Logger:
             file.write(f"{flag} {log_start_time} | {running_script} -- {message}\n")
 
     def write_to_log(self, flag, running_script, message):
-        with open("/logs/log.txt", "a") as file:
+        with open("/home/ars0n/logs/log.txt", "a") as file:
             log_start_time = str(datetime.now())
             file.write(f"{flag} {log_start_time} | {running_script} -- {message}\n")
         with open("logs/temp_log.txt", "a") as file:
@@ -39,12 +39,12 @@ class Logger:
 
     def create_datebase_log(self, args):
         try:
-            subprocess.run(["[ -f /logs/log.txt ] || touch /logs/log.txt"], shell=True)
+            subprocess.run(["[ -f /home/ars0n/logs/log.txt ] || touch /home/ars0n/logs/log.txt"], shell=True)
             logEntry = {
                 "scan":"Wildfire.py -- " + str(datetime.now()),
                 "logFile":[]
             }
-            with open("/logs/temp_log.txt", "r") as file:
+            with open("/home/ars0n/logs/temp_log.txt", "r") as file:
                     clean_log_file = []
                     for line in file.readlines():
                         if len(line.strip()) > 3:

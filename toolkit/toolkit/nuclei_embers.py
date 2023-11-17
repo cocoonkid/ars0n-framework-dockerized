@@ -67,15 +67,15 @@ url_str = ""
 for url in urls:
     url_str += f"{url}\n"
 
-f = open("/tmp/urls.txt", "w")
+f = open("/home/ars0n/tmp/urls.txt", "w")
 f.write(url_str)
 f.close()
 
 now = datetime.now().strftime("%d-%m-%y_%I%p")
 
-subprocess.run([f"{home_dir}/go/bin/nuclei -t {template} -l /tmp/urls.txt -fhr -sb --headless -o /tmp/{fqdn}-{now}.json -json"], shell=True)
+subprocess.run([f"{home_dir}/go/bin/nuclei -t {template} -l /home/ars0n/tmp/urls.txt -fhr -sb --headless -o /home/ars0n/tmp/{fqdn}-{now}.json -json"], shell=True)
 
-f = open(f"/tmp/{fqdn}-{now}.json")
+f = open(f"/home/ars0n/tmp/{fqdn}-{now}.json")
 results = f.read().split("\n")
 data = []
 counter = 0

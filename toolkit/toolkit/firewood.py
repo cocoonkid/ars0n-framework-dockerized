@@ -67,16 +67,16 @@ for subdomain in subdomainArr:
         consolidatedStr += f"{modified_subdomain}\n"
     else:
         consolidatedStr += f"{subdomain}\n"
-f = open("/tmp/dnmasscan.tmp", "w")
+f = open("/home/ars0n/tmp/dnmasscan.tmp", "w")
 f.write(consolidatedStr)
 f.close()
-dnmasscan_results = subprocess.run([f"cd {home_dir}/Tools/dnmasscan;  ./dnmasscan /tmp/dnmasscan.tmp /tmp/dns.log -p1-65535 -oJ /tmp/masscan.json --rate=100000"], stderr=subprocess.PIPE, text=True, shell=True)
+dnmasscan_results = subprocess.run([f"cd {home_dir}/Tools/dnmasscan;  ./dnmasscan /home/ars0n/tmp/dnmasscan.tmp /home/ars0n/tmp/dns.log -p1-65535 -oJ /home/ars0n/tmp/masscan.json --rate=100000"], stderr=subprocess.PIPE, text=True, shell=True)
 if "FAIL" in dnmasscan_results.stderr:
     print("[!] Masscan failed!  Attempting to fix the issue...")
-    subprocess.run(["sed -i '1d' /tmp/dnmasscan.tmp"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
-    subprocess.run([f"cd {home_dir}/Tools/dnmasscan;  ./dnmasscan /tmp/dnmasscan.tmp /tmp/dns.log -p1-65535 -oJ /tmp/masscan.json --rate=100000"], shell=True)
-subprocess.run(["rm /tmp/dnmasscan.tmp"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
-f = open("/tmp/masscan.json", "r")
+    subprocess.run(["sed -i '1d' /home/ars0n/tmp/dnmasscan.tmp"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
+    subprocess.run([f"cd {home_dir}/Tools/dnmasscan;  ./dnmasscan /home/ars0n/tmp/dnmasscan.tmp /home/ars0n/tmp/dns.log -p1-65535 -oJ /home/ars0n/tmp/masscan.json --rate=100000"], shell=True)
+subprocess.run(["rm /home/ars0n/tmp/dnmasscan.tmp"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
+f = open("/home/ars0n/tmp/masscan.json", "r")
 data = f.read()
 if len(data) < 1:
     print("[!] DNMasscan returned no results.  Exiting...")

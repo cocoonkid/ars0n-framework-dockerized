@@ -226,7 +226,7 @@ def ec2_checks(cname):
         print("[-] Request timed out.")  
     except requests.exceptions.RequestException as e:
         print(f"[-] An error occurred -- check {cname} manually")
-    ec2_nmap = subprocess.run(["nmap", "-Pn", "-p-", "-sT", "--reason", "--open", "-oA", "./tmp/{cname}_tcp_full_port_scan", cname], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
+    ec2_nmap = subprocess.run(["nmap", "-Pn", "-p-", "-sT", "--reason", "--open", "-oA", "./home/ars0n/tmp/{cname}_tcp_full_port_scan", cname], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
     if ec2_nmap.returncode == 0:
         print(f"[!] TCP Full Port Scan completed on {cname}")
     else:
