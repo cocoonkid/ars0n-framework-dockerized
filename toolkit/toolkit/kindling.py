@@ -4,6 +4,10 @@
 
 import requests, sys, subprocess, getopt, json, time, math
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 full_cmd_arguments = sys.argv
 argument_list = full_cmd_arguments[1:]
@@ -129,8 +133,7 @@ else:
     for url in thisFqdn['recon']['subdomains']['httprobeAdded']:
         message_urls_string += f"{url}\n"
     message_json = {'text':f'kindling.py (live server probe) completed successfully in {runtime_minutes} minutes!  This scan of {fqdn} discovered the following URLs went live in the last 6 hours:\n\n{message_urls_string}\nHappy Hunting :)','username':'Recon Box','icon_emoji':':eyes:'}
-f = open(f'{home_dir}/.keys/slack_web_hook')
-token = f.read()
+token = os.getenv('SLACK_TOKEN')
 slack_auto = requests.post(f'https://hooks.slack.com/services/{token}', json=message_json)
 
 print(f"[+] Kindling.py completed successfully in {runtime_minutes} minutes!")

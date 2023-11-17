@@ -4,6 +4,10 @@ import argparse
 import json
 import re
 from datetime import datetime, timedelta
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Timer:
     def __init__(self):
@@ -525,10 +529,7 @@ def build_slack_message(args, thisFqdn, data, template):
     target_count = len(urls)
     if non_info_counter != 0 or info_counter != 0:
         message_json = {'text':f'Nuclei Scan Completed!\n\nResults:\nWeb Servers Scanned: {target_count}\nRood/Seed Targeted: {args.fqdn}\nTemplate Category: {template}\nImpactful Results: {non_info_counter}\nInformational Results: {info_counter}\n\nNothing wrong with a little Spray and Pray!!  :pray:','username':'Vuln Disco Box','icon_emoji':':dart:'}
-        home_dir = get_home_dir()
-        f = open(f'{home_dir}/.keys/slack_web_hook')
-        token = f.read()
-        f.close()
+        token = os.getenv('SLACK_TOKEN')
         slack_auto = requests.post(f'https://hooks.slack.com/services/{token}', json=message_json) 
         print(f"[+] Slack Notification Sent!  {non_info_counter} Impactful Findings!")
 

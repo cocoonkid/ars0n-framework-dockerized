@@ -1,6 +1,11 @@
 from os import remove
 import requests, sys, subprocess, getopt, json, time, math
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 start = datetime.now()
 
@@ -105,6 +110,5 @@ runtime_minutes = math.floor(runtime_seconds / 60)
 target_count = len(urls)
 if non_info_counter > 0:
     message_json = {'text':f'Nuclei Scan Completed!\n\nResults:\nWeb Servers Scanned: {target_count}\nRood/Seed Targeted: {fqdn}\nTemplate Category: {template}\nImpactful Results: {non_info_counter}\nInformational Results: {info_counter}\nScan Time: {runtime_minutes} minutes\nReport Location: {home_dir}/Reports/{template}-{now}.json\n\nNothing wrong with a little Spray and Pray!!  :pray:','username':'Vuln Disco Box','icon_emoji':':dart:'}
-    f = open(f'{home_dir}/.keys/slack_web_hook')
-    token = f.read()
+    token = os.getenv('SLACK_TOKEN')
     slack_auto = requests.post(f'https://hooks.slack.com/services/{token}', json=message_json)     
