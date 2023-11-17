@@ -51,26 +51,26 @@ services:
 # DVWA - Damn Vulerable Web Application - You can uncomment it and use it to test the UI and the tools. 
 # Just enter localhost:4280 as target domain - some tools will naturally fail since they expect https and others.
 # We might add a real working lab with https and subdomains etc. at some stage.  BIG THANKS TO https://github.com/digininja/DVWA
-  dvwa:
-      image: ghcr.io/digininja/dvwa:latest
-      environment:
-        - DB_SERVER=dvwa-mariadb
-      depends_on:
-        - dvwa-mariadb
-      ports:
-        - 127.0.0.1:4280:80
-      restart: unless-stopped
+  # dvwa:
+  #     image: ghcr.io/digininja/dvwa:latest
+  #     environment:
+  #       - DB_SERVER=dvwa-mariadb
+  #     depends_on:
+  #       - dvwa-mariadb
+  #     ports:
+  #       - 127.0.0.1:4280:80
+  #     restart: unless-stopped
 
-  dvwa-mariadb:
-    image: docker.io/library/mariadb:latest
-    environment:
-      - MYSQL_ROOT_PASSWORD=dvwa
-      - MYSQL_DATABASE=dvwa
-      - MYSQL_USER=dvwa
-      - MYSQL_PASSWORD=p@ssw0rd
-    volumes:
-      - dvwa:/var/lib/mysql
-    restart: unless-stopped
+  # dvwa-mariadb:
+  #   image: docker.io/library/mariadb:latest
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=dvwa
+  #     - MYSQL_DATABASE=dvwa
+  #     - MYSQL_USER=dvwa
+  #     - MYSQL_PASSWORD=p@ssw0rd
+  #   volumes:
+  #     - dvwa:/var/lib/mysql
+  #   restart: unless-stopped
 
 
 volumes:
